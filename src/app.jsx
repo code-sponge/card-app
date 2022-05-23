@@ -1,5 +1,7 @@
+import Login from './components/login';
+
 function App() {
-  return <div>Hello World!</div>;
+  return <div>Hello :) </div>;
 }
 
 export default App;
