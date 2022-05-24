@@ -7,8 +7,8 @@ import Header from '../header/header';
 import styles from './maker.module.css';
 
 const Maker = ({ authService }) => {
-  const [cards, setCards] = useState([
-    {
+  const [cards, setCards] = useState({
+    1: {
       id: '1',
       name: 'Ashley',
       company: 'Ohouse',
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
       fileName: 'ashley',
       fileURL: null,
     },
-    {
+    2: {
       id: '2',
       name: 'Dana',
       company: 'Beyond Style',
@@ -30,7 +30,7 @@ const Maker = ({ authService }) => {
       fileName: 'dana',
       fileURL: 'dana.png',
     },
-    {
+    3: {
       id: '3',
       name: 'Podo',
       company: 'Bbodoll House',
@@ -41,7 +41,7 @@ const Maker = ({ authService }) => {
       fileName: 'podo',
       fileURL: null,
     },
-  ]);
+  });
   const navigate = useNavigate();
   const onLogout = () => {
     authService.logout();
@@ -55,16 +55,32 @@ const Maker = ({ authService }) => {
     });
   });
 
-  const addCard = (card) => {
-    const updated = [...cards, card];
-    setCards(updated);
+  const createOrUpdateCard = (card) => {
+    setCards((cards) => {
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
+  };
+
+  const deleteCard = (card) => {
+    setCards((cards) => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
   };
 
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor className={styles.editor} cards={cards} addCard={addCard} />
+        <Editor
+          className={styles.editor}
+          cards={cards}
+          deleteCard={deleteCard}
+          createOrUpdateCard={createOrUpdateCard}
+        />
         <Preview className={styles.preview} cards={cards} />
       </div>
       <Footer />
